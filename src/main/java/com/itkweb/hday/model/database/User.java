@@ -10,27 +10,32 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
+@JsonInclude(Include.NON_NULL)
 public class User {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id", nullable=false)
+	@Column(name = "id", nullable = false)
 	@JsonProperty("userId")
 	private Integer id;
 
 	@Column(name = "login")
+	@NotEmpty
 	private String login;
 
 	@Column(name = "password")
-	@JsonIgnore
+	@NotEmpty
 	private String password;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonProperty("farm")
 	private Set<Farm> farms;
 

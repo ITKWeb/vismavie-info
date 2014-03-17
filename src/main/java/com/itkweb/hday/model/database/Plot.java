@@ -7,34 +7,48 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name="plot")
+@Table(name = "plot")
+@JsonInclude(Include.NON_NULL)
 public class Plot {
 
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name = "id")
 	@JsonProperty("plotId")
 	private Integer id;
 
-	@Column(name="name")
+	@Column(name = "name")
+	@NotEmpty
 	private String name;
 
-	@Column(name="latitude")
+	@Column(name = "latitude")
+	@NotNull
+	@Min(1)
 	private Float latitude;
 
-	@Column(name="longitude")
+	@Column(name = "longitude")
+	@NotNull
+	@Min(1)
 	private Float longitude;
 
-	@Column(name="area")
+	@Column(name = "area")
+	@NotNull
+	@Min(1)
 	private Float area;
 
 	@ManyToOne
-	@JoinColumn(name="farm_id", nullable=false)
+	@JoinColumn(name = "farm_id", nullable = false)
 	@JsonIgnore
 	private Farm farm;
 

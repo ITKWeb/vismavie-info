@@ -12,28 +12,34 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name="farm")
+@Table(name = "farm")
+@JsonInclude(Include.NON_NULL)
 public class Farm {
 
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name = "id")
 	@JsonProperty("farmId")
 	private Integer id;
 
-	@Column(name="name")
+	@Column(name = "name")
+	@NotEmpty
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name="user_id", nullable=false)
+	@JoinColumn(name = "user_id", nullable = false)
 	@JsonIgnore
 	private User user;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="farm")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "farm")
 	private Set<Plot> plots;
 
 	public Integer getId() {
