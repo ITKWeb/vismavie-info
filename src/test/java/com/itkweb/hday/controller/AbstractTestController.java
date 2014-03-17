@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.itkweb.hday.controllers;
+package com.itkweb.hday.controller;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
