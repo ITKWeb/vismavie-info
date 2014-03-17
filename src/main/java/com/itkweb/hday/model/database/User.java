@@ -6,18 +6,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class User {
 
 	@Id
 	@GeneratedValue
+	@JsonProperty("userId")
 	private Long id;
 
 	private String login;
 
+	@JsonIgnore
 	private String password;
 
 	@ManyToOne
+	@JsonProperty("farm")
 	private Set<Farm> farms;
 
 	public Long getId() {
@@ -51,7 +56,5 @@ public class User {
 	public void setFarms(Set<Farm> farms) {
 		this.farms = farms;
 	}
-
-
 
 }

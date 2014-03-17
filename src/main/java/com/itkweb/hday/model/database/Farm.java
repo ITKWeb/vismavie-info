@@ -7,16 +7,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-public class Farm {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class Farm {
 
 	@Id
 	@GeneratedValue
+	@JsonProperty("farmId")
 	private Long id;
 
 	private String name;
 
 	@OneToMany
+	@JsonIgnore
 	private User user;
 
 	@ManyToOne
@@ -53,6 +57,5 @@ public class Farm {
 	public void setPlots(Set<Plot> plots) {
 		this.plots = plots;
 	}
-
 
 }

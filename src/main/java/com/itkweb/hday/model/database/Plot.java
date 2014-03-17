@@ -4,11 +4,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-public class Plot {
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class Plot {
 
 	@Id
 	@GeneratedValue
+	@JsonProperty("plotId")
 	private Long id;
 
 	private String name;
@@ -17,6 +20,7 @@ public class Plot {
 	private Float area;
 
 	@OneToMany
+	@JsonIgnore
 	private Farm farm;
 
 	public Long getId() {
@@ -66,7 +70,5 @@ public class Plot {
 	public void setFarm(Farm farm) {
 		this.farm = farm;
 	}
-
-
 
 }

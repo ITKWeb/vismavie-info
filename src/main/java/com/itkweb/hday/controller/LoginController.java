@@ -65,8 +65,11 @@ public class LoginController {
 		// check login and password
 		if (responseEntity == null) { // if we don't have already an error
 			User user = userService.getUserByLogin(loginData.getLogin(), loginData.getPassword());
-			if (user != null) {
-
+			if (user != null) { // user found
+				responseEntity = new ResponseEntity<User>(user, HttpStatus.OK);
+				if (LOGGER.isDebugEnabled()) {
+					LOGGER.debug("User data found for : " + loginData);
+				}
 			} else { // user was not found
 				ErrorMessage error = new ErrorMessage();
 				error.setErrorMessage(messageSource.getMessage("hday.wrongLoginPassword", null, null));
