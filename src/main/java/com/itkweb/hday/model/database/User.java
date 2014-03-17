@@ -2,34 +2,43 @@ package com.itkweb.hday.model.database;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
+@Table(name="user")
 public class User {
 
 	@Id
 	@GeneratedValue
+	@Column(name = "id", nullable=false)
 	@JsonProperty("userId")
-	private Long id;
+	private Integer id;
 
+	@Column(name = "login")
 	private String login;
 
+	@Column(name = "password")
 	@JsonIgnore
 	private String password;
 
-	@ManyToOne
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
 	@JsonProperty("farm")
 	private Set<Farm> farms;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

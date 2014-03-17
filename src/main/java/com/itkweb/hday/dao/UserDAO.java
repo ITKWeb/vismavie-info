@@ -5,5 +5,7 @@ import com.itkweb.hday.model.database.User;
 public interface UserDAO {
 
 
-	public User getById(Long id);
+	public User getById(Integer id);
+
+	public User saveOrUpdate(User user);
 }

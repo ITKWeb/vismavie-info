@@ -53,10 +53,10 @@ public class TestLoginController extends AbstractTestController {
 
 		// call controller
 		mockMvc.perform(MockMvcRequestBuilders.post("/server/rest/login").content(json))
-				.andExpect(MockMvcResultMatchers.status().isBadRequest())
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.errorMessage").value(
-								messageSource.getMessage("hday.loginPasswordNoEmpty", null, null)));
+		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+		.andExpect(
+				MockMvcResultMatchers.jsonPath("$.errorMessage").value(
+						messageSource.getMessage("hday.loginPasswordNoEmpty", null, null)));
 	}
 
 	/**
@@ -77,10 +77,10 @@ public class TestLoginController extends AbstractTestController {
 
 		// call controller
 		mockMvc.perform(MockMvcRequestBuilders.post("/server/rest/login").content(json))
-				.andExpect(MockMvcResultMatchers.status().isBadRequest())
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.errorMessage").value(
-								messageSource.getMessage("hday.wrongLoginPassword", null, null)));
+		.andExpect(MockMvcResultMatchers.status().isBadRequest())
+		.andExpect(
+				MockMvcResultMatchers.jsonPath("$.errorMessage").value(
+						messageSource.getMessage("hday.wrongLoginPassword", null, null)));
 
 		// verify mock
 		verify(userServiceMock).getUserByLogin(loginData.getLogin(), loginData.getPassword());
@@ -102,13 +102,13 @@ public class TestLoginController extends AbstractTestController {
 		// setup return data
 		// user part
 		User user = new User();
-		user.setId(10L);
+		user.setId(10);
 		user.setLogin(loginData.getLogin());
 		user.setFarms(new HashSet<Farm>());
 
 		// farm part
 		Farm farm = new Farm();
-		farm.setId(100L);
+		farm.setId(100);
 		farm.setName("La ferme");
 		farm.setPlots(new HashSet<Plot>());
 		user.getFarms().add(farm);
@@ -116,7 +116,7 @@ public class TestLoginController extends AbstractTestController {
 		// plot part
 		// plot 1
 		Plot plot1 = new Plot();
-		plot1.setId(50L);
+		plot1.setId(50);
 		plot1.setName("Ma belle parcelle");
 		plot1.setArea(33.5f);
 		plot1.setLongitude(47.63f);
@@ -125,7 +125,7 @@ public class TestLoginController extends AbstractTestController {
 
 		// plot 2
 		Plot plot2 = new Plot();
-		plot2.setId(51L);
+		plot2.setId(51);
 		plot2.setName("Ma parcelle");
 		plot2.setArea(11.5f);
 		plot2.setLongitude(48.63f);
@@ -134,7 +134,7 @@ public class TestLoginController extends AbstractTestController {
 
 		// plot 3
 		Plot plot3 = new Plot();
-		plot3.setId(52L);
+		plot3.setId(52);
 		plot3.setName("No name");
 		plot3.setArea(28.36f);
 		plot3.setLongitude(47.2f);
@@ -146,56 +146,56 @@ public class TestLoginController extends AbstractTestController {
 
 		// call controller
 		mockMvc.perform(MockMvcRequestBuilders.post("/server/rest/login").content(json))
-				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(user.getId().intValue()))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.login").value(user.getLogin()))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.password").doesNotExist())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm").isArray())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].user").doesNotExist())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].farmId").value(farm.getId().intValue()))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].name").value(farm.getName()))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots").isArray())
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].name").value(
-								plot1.getName()))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].area").value(
-								truncateDouble(plot1.getArea().doubleValue(), 2)))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].longitude").value(
-								truncateDouble(plot1.getLongitude().doubleValue(), 2)))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].latitude").value(
-								truncateDouble(plot1.getLatitude().doubleValue(), 2)))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].farm").doesNotExist())
+		.andExpect(MockMvcResultMatchers.status().isOk())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(user.getId().intValue()))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.login").value(user.getLogin()))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.password").doesNotExist())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.farm").isArray())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].user").doesNotExist())
+		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].farmId").value(farm.getId().intValue()))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].name").value(farm.getName()))
+		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots").isArray())
+		.andExpect(
+				MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].name").value(
+						plot1.getName()))
+						.andExpect(
+								MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].area").value(
+										truncateDouble(plot1.getArea().doubleValue(), 2)))
+										.andExpect(
+												MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].longitude").value(
+														truncateDouble(plot1.getLongitude().doubleValue(), 2)))
+														.andExpect(
+																MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].latitude").value(
+																		truncateDouble(plot1.getLatitude().doubleValue(), 2)))
+																		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].farm").doesNotExist())
 
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].name").value(
-								plot2.getName()))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].area").value(
-								truncateDouble(plot2.getArea().doubleValue(), 2)))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].longitude").value(
-								truncateDouble(plot2.getLongitude().doubleValue(), 2)))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].latitude").value(
-								truncateDouble(plot2.getLatitude().doubleValue(), 2)))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].farm").doesNotExist())
+																		.andExpect(
+																				MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].name").value(
+																						plot2.getName()))
+																						.andExpect(
+																								MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].area").value(
+																										truncateDouble(plot2.getArea().doubleValue(), 2)))
+																										.andExpect(
+																												MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].longitude").value(
+																														truncateDouble(plot2.getLongitude().doubleValue(), 2)))
+																														.andExpect(
+																																MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].latitude").value(
+																																		truncateDouble(plot2.getLatitude().doubleValue(), 2)))
+																																		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].farm").doesNotExist())
 
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].name").value(
-								plot3.getName()))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].area").value(
-								truncateDouble(plot3.getArea().doubleValue(), 3)))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].longitude").value(
-								truncateDouble(plot3.getLongitude().doubleValue(), 2)))
-				.andExpect(
-						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].latitude").value(
-								truncateDouble(plot3.getLatitude().doubleValue(), 2)))
-				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].farm").doesNotExist());
+																																		.andExpect(
+																																				MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].name").value(
+																																						plot3.getName()))
+																																						.andExpect(
+																																								MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].area").value(
+																																										truncateDouble(plot3.getArea().doubleValue(), 3)))
+																																										.andExpect(
+																																												MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].longitude").value(
+																																														truncateDouble(plot3.getLongitude().doubleValue(), 2)))
+																																														.andExpect(
+																																																MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].latitude").value(
+																																																		truncateDouble(plot3.getLatitude().doubleValue(), 2)))
+																																																		.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].farm").doesNotExist());
 
 		// verify mock
 		verify(userServiceMock).getUserByLogin(loginData.getLogin(), loginData.getPassword());

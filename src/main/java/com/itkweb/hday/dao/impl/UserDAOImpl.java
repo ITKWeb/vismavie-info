@@ -1,29 +1,49 @@
 package com.itkweb.hday.dao.impl;
 
-import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Assert;
+import org.springframework.stereotype.Repository;
 
+import com.itkweb.hday.dao.AbstractBaseDAO;
 import com.itkweb.hday.dao.UserDAO;
 import com.itkweb.hday.model.database.User;
 
-public class UserDAOImpl implements UserDAO {
-
-	@Autowired
-	private EntityManager entityManager;
+@Repository
+public class UserDAOImpl extends AbstractBaseDAO implements UserDAO {
 
 
 	@Override
-	public User getById(Long id) {
+	public User getById(Integer id) {
 
-		TypedQuery<User> query = entityManager.createQuery("select u from User where id = :id", User.class);
+
+		TypedQuery<User> query = entityManager.createQuery("select u from User as u where u.id = :id", User.class);
 
 		query.setParameter("id", id);
 
-		User user = query.getSingleResult();
+		User user;
+		try {
+			user = query.getSingleResult();
+		} catch (NoResultException e) {
+			user = null;
+		}
 
 		return user;
+	}
+
+	@Override
+	public User saveOrUpdate(User user) {
+
+		if (user.getId() == null) {
+			entityManager.persist(user); // save
+		} else {
+			entityManager.merge(user); // update
+		}
+
+		Assert.assertNotNull(user.getId());
+
+		return getById(user.getId());
 	}
 
 }
