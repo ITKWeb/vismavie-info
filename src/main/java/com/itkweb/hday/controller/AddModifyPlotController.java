@@ -49,11 +49,26 @@ public class AddModifyPlotController {
 	 * @return the {@link ResponseEntity}
 	 */
 	@RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> login(@RequestBody @Valid User user, BindingResult result) {
+	public ResponseEntity<?> addPlot(@RequestBody @Valid User user, BindingResult result) {
 		if (LOGGER.isDebugEnabled()) {
-			LOGGER.debug("Received user data : " + user);
+			LOGGER.debug("Received user data to add : " + user);
 		}
 
+		return callService(user, result, false);
+	}
+
+	/**
+	 * Call the {@link UserService}
+	 * 
+	 * @param user
+	 *            the user
+	 * @param result
+	 *            the binding result
+	 * @param modify
+	 *            <code>true</code> to call modify method, <code>false</code> to call add
+	 * @return the {@link ResponseEntity}
+	 */
+	private ResponseEntity<?> callService(User user, BindingResult result, boolean modify) {
 		// check first validation
 		ResponseEntity<?> responseEntity = null;
 		if (result.hasErrors()) { // check if we have error (empty fields)
@@ -76,7 +91,7 @@ public class AddModifyPlotController {
 
 		// check login and password
 		if (responseEntity == null) { // if we don't have already an error
-			User userReturn = userService.addPlot(user);
+			User userReturn = modify ? userService.modifyPlot(user) : userService.addPlot(user);
 			if (userReturn != null) { // user found
 				responseEntity = new ResponseEntity<User>(userReturn, HttpStatus.OK);
 				if (LOGGER.isDebugEnabled()) {
@@ -92,4 +107,23 @@ public class AddModifyPlotController {
 
 		return responseEntity;
 	}
+
+	/**
+	 * Modify plot of user
+	 * 
+	 * @param user
+	 *            the user data
+	 * @param result
+	 *            the validation process result
+	 * @return the {@link ResponseEntity}
+	 */
+	@RequestMapping(value = "/modif", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public ResponseEntity<?> modifyPlot(@RequestBody @Valid User user, BindingResult result) {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("Received user data for modify : " + user);
+		}
+
+		return callService(user, result, true);
+	}
+
 }

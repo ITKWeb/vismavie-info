@@ -17,6 +17,8 @@ public interface UserService {
 
 	public User addPlot(User user);
 
+	public User modifyPlot(User user);
+
 	/**
 	 * 
 	 * @param plotId

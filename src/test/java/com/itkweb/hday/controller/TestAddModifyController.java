@@ -47,10 +47,11 @@ public class TestAddModifyController extends AbstractTestController {
 	/**
 	 * Test an empty request
 	 * 
+	 * @param url
+	 *            URL to call
 	 * @throws Exception
 	 */
-	@Test
-	public void testEmptyRequest() throws Exception {
+	private void testEmptyRequest(String url) throws Exception {
 		// setup data
 		User user = new User();
 		user.setLogin("");
@@ -58,7 +59,7 @@ public class TestAddModifyController extends AbstractTestController {
 		String json = objectMapper.writeValueAsString(user);
 
 		// call controller
-		mockMvc.perform(MockMvcRequestBuilders.post("/server/rest/add").content(json))
+		mockMvc.perform(MockMvcRequestBuilders.post(url).content(json))
 				.andExpect(MockMvcResultMatchers.status().isBadRequest())
 				.andExpect(
 						MockMvcResultMatchers.jsonPath("$.errorMessage").value(
@@ -66,21 +67,62 @@ public class TestAddModifyController extends AbstractTestController {
 	}
 
 	/**
-	 * Test a too much plot request
+	 * Test an empty add request
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testTooMuchPlotRequest() throws Exception {
+	public void testEmptyAddRequest() throws Exception {
+		testEmptyRequest("/server/rest/add");
+	}
+
+	/**
+	 * Test an empty modify request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testEmptyModifyRequest() throws Exception {
+		testEmptyRequest("/server/rest/modif");
+	}
+
+	/**
+	 * Test a too much plot request
+	 * 
+	 * @param url
+	 *            URL to call
+	 * @throws Exception
+	 */
+	private void testTooMuchPlotRequest(String url) throws Exception {
 		generateUserWith3PlotsData();
 
 		// call controller
-		mockMvc.perform(MockMvcRequestBuilders.post("/server/rest/add").content(objectMapper.writeValueAsString(user)))
+		mockMvc.perform(MockMvcRequestBuilders.post(url).content(objectMapper.writeValueAsString(user)))
 				.andExpect(MockMvcResultMatchers.status().isBadRequest())
 				.andExpect(
 						MockMvcResultMatchers.jsonPath("$.errorMessage").value(
 								messageSource.getMessage("hday.onlyOnePlot", null, null)));
 
+	}
+
+	/**
+	 * Test a too much plot add request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testTooMuchPlotAddRequest() throws Exception {
+		testTooMuchPlotRequest("/server/rest/add");
+	}
+
+	/**
+	 * Test a too much plot modify request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testTooMuchPlotModifyRequest() throws Exception {
+		testTooMuchPlotRequest("/server/rest/modif");
 	}
 
 	/**
@@ -170,12 +212,12 @@ public class TestAddModifyController extends AbstractTestController {
 	}
 
 	/**
-	 * Test a wrong user password request
+	 * Test a wrong user password add request
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testWrongUserPasswordRequest() throws Exception {
+	public void testWrongUserPasswordAddRequest() throws Exception {
 		final User user = generateUserWith1PlotData();
 
 		// init mock
@@ -198,12 +240,41 @@ public class TestAddModifyController extends AbstractTestController {
 	}
 
 	/**
-	 * Test a wrong user password request
+	 * Test a wrong user password modify request
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testCorrectRequest() throws Exception {
+	public void testWrongUserPasswordModifyRequest() throws Exception {
+		final User user = generateUserWith1PlotData();
+
+		// init mock
+		when(userServiceMock.modifyPlot(user)).thenReturn(null);
+
+		// call controller
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/server/rest/modif").content(objectMapper.writeValueAsString(user)))
+				.andExpect(MockMvcResultMatchers.status().isBadRequest())
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.errorMessage").value(
+								messageSource.getMessage("hday.wrongLoginPassword", null, null)));
+
+		// verify mock
+		verify(userServiceMock).modifyPlot(Matchers.argThat(new ArgumentMatcher<User>() {
+			@Override
+			public boolean matches(Object argument) {
+				return argument instanceof User && ((User) argument).getId() == user.getId();
+			}
+		}));
+	}
+
+	/**
+	 * Test a correct add request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCorrectAddRequest() throws Exception {
 		final User inputUser = generateUserWith1PlotData();
 		generateUserWith3PlotsData();
 
@@ -270,12 +341,94 @@ public class TestAddModifyController extends AbstractTestController {
 				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].farm").doesNotExist());
 
 		// verify mock
-		verify(userServiceMock).addPlot(userServiceMock.addPlot(Matchers.argThat(new ArgumentMatcher<User>() {
+		verify(userServiceMock).addPlot(Matchers.argThat(new ArgumentMatcher<User>() {
 			@Override
 			public boolean matches(Object argument) {
 				return argument instanceof User && ((User) argument).getId() == inputUser.getId();
 			}
-		})));
+		}));
+
+	}
+
+	/**
+	 * Test a correct modify request
+	 * 
+	 * @throws Exception
+	 */
+	@Test
+	public void testCorrectModifyRequest() throws Exception {
+		final User inputUser = generateUserWith1PlotData();
+		generateUserWith3PlotsData();
+
+		// init mock
+		when(userServiceMock.modifyPlot(Matchers.argThat(new ArgumentMatcher<User>() {
+			@Override
+			public boolean matches(Object argument) {
+				return argument instanceof User && ((User) argument).getId() == inputUser.getId();
+			}
+		}))).thenReturn(user);
+
+		// call controller
+		mockMvc.perform(
+				MockMvcRequestBuilders.post("/server/rest/modif").content(objectMapper.writeValueAsString(inputUser)))
+				.andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(user.getId().intValue()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.login").value(user.getLogin()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.password").value(user.getPassword()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm").isArray())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].user").doesNotExist())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].farmId").value(farm.getId().intValue()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].name").value(farm.getName()))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots").isArray())
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].name").value(
+								plot1.getName()))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].area").value(
+								truncateDouble(plot1.getArea().doubleValue(), 2)))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].longitude").value(
+								truncateDouble(plot1.getLongitude().doubleValue(), 2)))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].latitude").value(
+								truncateDouble(plot1.getLatitude().doubleValue(), 2)))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 50)].farm").doesNotExist())
+
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].name").value(
+								plot2.getName()))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].area").value(
+								truncateDouble(plot2.getArea().doubleValue(), 2)))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].longitude").value(
+								truncateDouble(plot2.getLongitude().doubleValue(), 2)))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].latitude").value(
+								truncateDouble(plot2.getLatitude().doubleValue(), 2)))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 51)].farm").doesNotExist())
+
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].name").value(
+								plot3.getName()))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].area").value(
+								truncateDouble(plot3.getArea().doubleValue(), 3)))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].longitude").value(
+								truncateDouble(plot3.getLongitude().doubleValue(), 2)))
+				.andExpect(
+						MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].latitude").value(
+								truncateDouble(plot3.getLatitude().doubleValue(), 2)))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.farm[0].plots[?(@.plotId  == 52)].farm").doesNotExist());
+
+		// verify mock
+		verify(userServiceMock).modifyPlot(Matchers.argThat(new ArgumentMatcher<User>() {
+			@Override
+			public boolean matches(Object argument) {
+				return argument instanceof User && ((User) argument).getId() == inputUser.getId();
+			}
+		}));
 	}
 
 	private double truncateDouble(double number, int numDigits) {
