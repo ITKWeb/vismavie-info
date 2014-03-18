@@ -1,7 +1,62 @@
 <!ELEMENT dataset (
+    author*,
+    book*,
+    book_author*,
+    mother*,
+    child*,
+    person*,
+    cpam*,
     user*,
     farm*,
     plot*)>
+
+<!ELEMENT author EMPTY>
+<!ATTLIST author
+    id CDATA #REQUIRED
+    firstname CDATA #IMPLIED
+    lastname CDATA #IMPLIED
+>
+
+<!ELEMENT book EMPTY>
+<!ATTLIST book
+    id CDATA #REQUIRED
+    title CDATA #REQUIRED
+    year CDATA #IMPLIED
+>
+
+<!ELEMENT book_author EMPTY>
+<!ATTLIST book_author
+    book_id CDATA #REQUIRED
+    author_id CDATA #REQUIRED
+>
+
+<!ELEMENT mother EMPTY>
+<!ATTLIST mother
+    id CDATA #REQUIRED
+    name CDATA #IMPLIED
+    age CDATA #IMPLIED
+>
+
+<!ELEMENT child EMPTY>
+<!ATTLIST child
+    id CDATA #REQUIRED
+    name CDATA #IMPLIED
+    age CDATA #IMPLIED
+    mother_id CDATA #REQUIRED
+>
+
+<!ELEMENT person EMPTY>
+<!ATTLIST person
+    id CDATA #REQUIRED
+    firstname CDATA #IMPLIED
+    lastname CDATA #IMPLIED
+>
+
+<!ELEMENT cpam EMPTY>
+<!ATTLIST cpam
+    person_id CDATA #REQUIRED
+    ss_number CDATA #REQUIRED
+>
 
 <!ELEMENT user EMPTY>
 <!ATTLIST user

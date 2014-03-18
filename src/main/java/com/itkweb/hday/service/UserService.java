@@ -23,5 +23,5 @@ public interface UserService {
 	 * 
 	 * @param plotId
 	 */
-	public void deletePlot(Long plotId);
+	public void deletePlot(Integer plotId);
 }

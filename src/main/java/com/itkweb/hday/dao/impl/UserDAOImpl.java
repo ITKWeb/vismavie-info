@@ -15,6 +15,17 @@ public class UserDAOImpl extends AbstractBaseDAO implements UserDAO {
 
 
 	@Override
+	public User getUserByLoginAndPassword(String login, String password) {
+		TypedQuery<User> query = entityManager.createQuery("select u from User as u where u.login = :login and u.password = :password", User.class);
+
+		try {
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
 	public User getById(Integer id) {
 
 

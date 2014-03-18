@@ -19,7 +19,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * 
  */
 @Configuration
-@PropertySource("classpath:/properties/MySQL.properties")
+@PropertySource("classpath:/properties/MySQL-test.properties")
 public class SpringDatabaseDtdTestConfiguration {
 
 	@Value("${jdbc.driverclass}")

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.itkweb.hday.model.database.Farm;
+import com.itkweb.hday.model.database.Plot;
 import com.itkweb.hday.model.database.User;
 import com.itkweb.hday.util.AbstractDAOTestCase;
 
@@ -79,24 +80,6 @@ public class UserDAOTest extends AbstractDAOTestCase {
 	}
 
 	@Test
-	public void save_persist() {
-
-		String login = "my login";
-		String password = "my password";
-		User user = new User();
-		user.setLogin(login);
-		user.setPassword(password);
-
-		Assert.assertNull(user.getId());
-
-		User persistedUser = userDAO.saveOrUpdate(user);
-
-		Assert.assertNotNull(persistedUser.getId());
-		Assert.assertEquals(login, persistedUser.getLogin());
-		Assert.assertEquals(password, persistedUser.getPassword());
-	}
-
-	@Test
 	public void save_merged() {
 
 		Integer id = 1;
@@ -117,6 +100,53 @@ public class UserDAOTest extends AbstractDAOTestCase {
 
 	}
 
+
+	@Test
+	public void save_add_new_plot() {
+
+		Integer id = 2;
+
+		User userToUpdate = userDAO.getById(id);
+
+		Farm farm = userToUpdate.getFarms().iterator().next();
+		Assert.assertEquals(3, farm.getPlots().size());
+
+		Plot plotToAdd = new Plot();
+		plotToAdd.setName("new plot");
+		plotToAdd.setLatitude(new Float(42.5));
+		plotToAdd.setLongitude(new Float(5.2));
+		plotToAdd.setArea(new Float(12));
+
+		plotToAdd.setFarm(farm);
+		farm.getPlots().add(plotToAdd);
+
+		User updatedUser = userDAO.saveOrUpdate(userToUpdate);
+
+		Farm updatedFarm = updatedUser.getFarms().iterator().next();
+		Assert.assertEquals(4, updatedFarm.getPlots().size());
+
+		for (Plot plot : updatedFarm.getPlots()) {
+			Assert.assertNotNull(plot.getId());
+		}
+	}
+
+	@Test
+	public void save_persist() {
+
+		String login = "my login";
+		String password = "my password";
+		User user = new User();
+		user.setLogin(login);
+		user.setPassword(password);
+
+		Assert.assertNull(user.getId());
+
+		User persistedUser = userDAO.saveOrUpdate(user);
+
+		Assert.assertNotNull(persistedUser.getId());
+		Assert.assertEquals(login, persistedUser.getLogin());
+		Assert.assertEquals(password, persistedUser.getPassword());
+	}
 
 
 }
