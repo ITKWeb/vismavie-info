@@ -20,7 +20,7 @@ function ($http, $location) {
                 callback(data);
             })
             .error(errorCallback);
-        }
+        } 
     }
 
     function addUser(callback, errorCallback, log, pass){
