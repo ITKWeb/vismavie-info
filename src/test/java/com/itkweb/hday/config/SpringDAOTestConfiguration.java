@@ -64,6 +64,7 @@ public class SpringDAOTestConfiguration {
 		dataSource.setUrl(address + schemaName);
 		dataSource.setUsername(login);
 		dataSource.setPassword(password);
+		dataSource.setMaxActive(200);
 		return dataSource;
 	}
 
