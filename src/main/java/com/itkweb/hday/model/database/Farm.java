@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,6 +37,7 @@ public class Farm {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
+	@JsonIgnore
 	private User user;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "farm", fetch = FetchType.EAGER)
