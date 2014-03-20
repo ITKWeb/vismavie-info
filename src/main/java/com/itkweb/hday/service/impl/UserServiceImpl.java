@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User modifyPlot(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		User savedUser = userDAO.saveOrUpdate(user);
+		return savedUser;
 	}
 
 }

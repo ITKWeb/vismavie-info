@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -49,7 +48,7 @@ public class Plot {
 
 	@ManyToOne
 	@JoinColumn(name = "farm_id", nullable = false)
-	@JsonIgnore
+	@JsonProperty("farmId")
 	private Farm farm;
 
 	public Integer getId() {

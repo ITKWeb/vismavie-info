@@ -48,7 +48,7 @@ public class DeleteController {
 	 *            the validation process result
 	 * @return the {@link ResponseEntity}
 	 */
-	@RequestMapping(value = "/{idPlot}", method = RequestMethod.DELETE, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/delete/{idPlot}", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> deletePlot(@PathVariable int idPlot, @RequestBody @Valid LoginData loginData,
 			BindingResult result) {
 		if (LOGGER.isDebugEnabled()) {
