@@ -9,18 +9,24 @@
 			Bienvenue à Vis ma vie d'info
 			<!-- données modifiables par l'utilisateur -->
 			<div class="field" > 
-				<div class="fieldLogin" > 
-					<label class="label" >Login :</label>
-					<input type="text" placeholder="texte simple" ng-model="login">
-				</div>
-				<div class="fieldPassword" > 
-				<label class="label" >Mot de passe :</label>
-				<input type="password" placeholder="mot de passe" ng-model="password">
-				</div>	
+
+				<table> 
+					<tr><td>
+						<label class="label" >Login :</label> </td>
+						<td>
+							<input type="text" placeholder="texte simple" ng-model="login"></td>
+					</tr>
+					<tr> <td>
+						<label class="label" >Mot de passe :</label> </td>
+						<td>
+							<input type="password" placeholder="mot de passe" ng-model="password"> </td>
+					</tr>
+				</table>
+
 			</div>
-
-			<button type="submit" ng-click="clickOnLogin()" class="bouton">OK !</button>
+			<div class="divButton">
+				<button type="submit" ng-click="clickOnLogin()" class="bouton">OK !</button>
+			</div>
 		</div>
-
 	</div>
 </section>

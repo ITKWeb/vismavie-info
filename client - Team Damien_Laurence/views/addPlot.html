@@ -1,0 +1,26 @@
+<section class="container">
+    <h1 class="field"> Ajout d'une parcelle </h1>
+    <hr>
+    
+<div>
+					<div class="field" > 
+						<label class="label" >Nom de la parcelle :</label> 
+						<input type="text" placeholder="" ng-model="plot2Add.name">
+					</div>
+					<div class="field" > 
+						<label class="label" >Surface :</label>
+						<input type="text" placeholder="" ng-model="plot2Add.area">
+					</div>		
+					<div class="field" > 
+						<label class="label" >Latitude :</label>
+						<input type="text" placeholder="" ng-model="plot2Add.latitude">
+					</div>		
+					<div class="field" > 
+						<label class="label" >Longitude :</label>
+						<input type="text" placeholder="" ng-model="plot2Add.longitude">
+					</div>
+</div>
+	<button type="submit" ng-click="clickOnAdd()" class="button"><img src="./assets/plus.png" /> Enregistrer</button>
+	<button type="submit" ng-click="clickOnCancel()" class="button">Annuler</button>
+
+</section>

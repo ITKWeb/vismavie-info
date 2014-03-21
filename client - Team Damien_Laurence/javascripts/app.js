@@ -12,7 +12,10 @@ app.config(["$routeProvider", "$httpProvider",
         templateUrl: 'views/view.html',
         controller: "viewController"
       })    
-
+	  .when('/addPlot', {
+        templateUrl: 'views/addPlot.html',
+        controller: "addPlotController"
+      })
       .otherwise({
         redirectTo: '/' // Par défaut
       });

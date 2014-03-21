@@ -21,7 +21,7 @@
 			</tr>	
 		</table>
 		<div>
-			<button type="submit" ng-click="clickOnDel(plot)" class="button"><img src="./assets/plus.png" /> Ajouter une parcelle</button>
+			<button type="submit" ng-click="clickOnAdd()" class="button"><img src="./assets/plus.png" /> Ajouter une parcelle</button>
 		</div>
 	</div>
 
@@ -34,13 +34,33 @@
 			</header>
 			<section class="popup-section">
 				<div>
-
+					<div class="field" > 
+						<label class="label" >Nom de la parcelle :</label> 
+						<input type="text" value="{{plot2Modif.name}}" ng-model="plot2Modif.name">
+					</div>
+					<div class="field" > 
+						<label class="label" >Surface :</label>
+						<input type="text" value="{{plot2Modif.area}}" ng-model="plot2Modif.area">
+					</div>		
+					<div class="field" > 
+						<label class="label" >Latitude :</label>
+						<input type="text" value="{{plot2Modif.latitude}}" ng-model="plot2Modif.latitude">
+					</div>		
+					<div class="field" > 
+						<label class="label" >Longitude :</label>
+						<input type="text" value="{{plot2Modif.longitude}}" ng-model="plot2Modif.longitude">
+					</div>
 				</div>
 			</section>
 			<footer class="popup-footer">
 				<a href="" class="btn" ng-click="hide()">Annuler</a>
+				<a href="" class="btn" ng-click="save()">Enregistrer</a>
 			</footer>
 		</div>
+		
+		
+		
+		
 	</div>
 </section>
 
