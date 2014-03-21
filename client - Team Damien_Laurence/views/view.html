@@ -1,0 +1,46 @@
+
+<section class="container">
+	<h1 class="field"> Bienvenue user n°{{user.userId}} ! </h1>
+	<hr>
+
+	<div class="fieldFarm">
+		<label> Votre ferme : {{user.farm[0].name}} </label>
+
+	</div>
+	<div class="fieldPlot">
+		<label> Voici la liste de vos parcelles :</label>
+		<table><tr>
+			<td>Nom</td><td>superficie</td><td>latitude</td><td>longitude</td><td>modifier</td><td>supprimer</td></tr>
+			<tr ng-repeat="plot in user.farm[0].plots">
+				<td>{{plot.name}}</td>
+				<td>{{plot.area}}</td>
+				<td>{{plot.latitude}}</td>
+				<td>{{plot.longitude}}</td>
+				<td ><button type="submit" ng-click="clickOnModif(plot)" class="button"><img src="./assets/icon_action_search.png" /></button></td>
+				<td><button type="submit" ng-click="clickOnDel(plot)" class="button"><img src="./assets/icon_action_del.png" /></button></td>
+			</tr>	
+		</table>
+		<div>
+			<button type="submit" ng-click="clickOnDel(plot)" class="button"><img src="./assets/plus.png" /> Ajouter une parcelle</button>
+		</div>
+	</div>
+
+	<div ng-show="showModifPopUp">
+		<div class="glass" ng-click="hide()" >
+		</div>
+		<div class="popup">
+			<header class="popup-header">
+				<h4>Modification de parcelle {{plot2Modif.name}}</h4>
+			</header>
+			<section class="popup-section">
+				<div>
+
+				</div>
+			</section>
+			<footer class="popup-footer">
+				<a href="" class="btn" ng-click="hide()">Annuler</a>
+			</footer>
+		</div>
+	</div>
+</section>
+

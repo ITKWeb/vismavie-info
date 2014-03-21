@@ -1,0 +1,123 @@
+/*Classes existantes*/
+html{height:100%;}
+body {
+	min-height:100%;
+	height:auto;
+	margin: 0 auto;
+	font-family:sans-serif;
+	font-size:0.9em;
+	background: #f0f0f0;
+	color: #444;
+}
+
+h1{
+	text-align: center;
+	font-weight: bold;
+}
+
+/*Divs & containers*/
+.container{
+	position:relative;
+	min-height:100%;
+	height:100%;
+
+}
+
+.field{
+	width: 70%;
+	margin: 10px auto;
+
+}
+
+/*//////////////////////////*\
+ BOUTON
+\*\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+.bouton{
+	margin: 0 8px 0 0;
+	padding: 6px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: top;
+	text-decoration:none;
+
+	color:#444;
+	box-shadow: 0 0 1px 0 #FFF inset;
+	border:solid 1px #AAA;
+	background: #E9E9E9;
+}
+.bouton:active{
+	padding: 7px 10px 5px;
+}
+.bouton:hover,
+.bouton:focus{
+	background: #F5F5F5;
+	border-color:#888;
+}
+
+
+/*---------------------------------------------------------------------*\
+	POPUP
+\*---------------------------------------------------------------------*/
+
+
+
+.glass{
+	width:100%;
+	height:100%;
+	position:fixed;
+	top:0;
+	left:0;
+	background-color:#000;
+	opacity:0.6;
+}
+
+.popup{
+	width:60%;
+	max-height:80%;
+	position:fixed;
+	top:10%;
+	left:50%;
+	margin-left:-30%;
+	padding:20px 20px 10px;
+	background-color:#FFF;
+	border-radius:2px;
+	box-shadow: 0 0 4px 0 #222222;
+	text-align:center;
+	opacity:1;
+
+}
+
+
+.popup-header{
+	text-align: center;
+	font-size:2em;
+	font-weight: bold;
+	padding:10px 0;
+	color: #5F5F5F;
+	letter-spacing: -0.1em;
+}
+
+h1 span{
+	color: #CCC;
+	font-size:0.5em;
+	letter-spacing: -0.1em;
+}
+
+
+
+
+
+.popup-section{
+	border-bottom:1px solid #F5F5F5;
+	padding:30px 10px;
+}
+.popup-footer{
+}
+
+
+
+
+
+
