@@ -1,0 +1,75 @@
+  
+<section class="container">
+  <div class="color">
+    <h1 class="field"> Bienvenue {{userLogin}} </h1>
+    </div>
+    <hr>
+
+  <div class="field" > 
+    <label class="label maLigne" > Nous travaillons sur la ferme : </label> {{user.farm[0].name}} 
+  </div>   
+
+ <hr> 
+    
+  <div class="field" > 
+    <label class="label maLigne">Tableau des mes parcelles: </label>
+    <table class="tableau">
+      <tr class="maLigne color tab"> <td class="tab"> Name </td><td class="tab"> Area</td><td class="tab"> Longitude </td><td class="tab"> Latitude </td><td class="tab"> Modif </td></tr>
+      <tr class="tab" ng-repeat="plot in user.farm[0].plots"> <td > {{plot.name}} </td><td > {{plot.area}}</td><td > {{plot.longitude}} </td><td > {{plot.latitude}} </td><td > <button      ng-click="clickOnPen(plot)" class="bouton">
+      <img src="./assets/pen.png" />
+    </button>  </td></tr>
+    </table>
+    
+    <button ng-click="display()" class="bouton">
+      <img src="./assets/plus.png" />
+    </button>  
+
+  </div>
+
+  <hr> 
+
+    <div class="field" ng-show="disp" >
+
+    <div class="field divLeft">
+      <div class="label marginLabel " >Name: </div>
+      <div class="label marginLabel " >Area: </div>
+      <div class="label marginLabel " >Longitude: </div>
+      <div class="label marginLabel " >Latitude: </div>
+    </div>
+
+    <div class="field divRight">
+      <input class="field noMargin"  type="text" ng-model="newName">
+      <input class="field noMargin" type="text" ng-model="newArea">
+      <input class="field noMargin" type="text"  ng-model="newLongitude">
+      <input class="field noMargin" type="text"  ng-model="newLatitude">
+    </div>
+
+<!--     <div class="field">
+      <label class="label" >Name: </label>
+      <input type="text" ng-model="newName">
+  </div>
+    <div class="field">
+      <label class="label" >Area: </label>
+      <input type="text" ng-model="newArea">
+  </div>
+    <div class="field">
+      <label class="label" >Longitude: </label>
+      <input type="text"  ng-model="newLongitude">
+  </div>
+    <div class="field">
+      <label class="label" >Latitude: </label>
+      <input type="text"  ng-model="newLatitude">
+  </div> -->
+
+    <div  class="field">
+       <button ng-click="valid()" class="bouton"> <img src="./assets/ok.png" /></button>
+    </div>
+
+  </div>
+
+
+
+
+
+</section>
+

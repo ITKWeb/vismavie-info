@@ -1,0 +1,27 @@
+<section class="container">
+    <h1 class="field"> Modifier mes informations  </h1>
+    <hr>
+    
+    <div class="field">
+    	<label class="label" >Name: </label>
+    	<input type="text" placeholder="{{oldName}}" ng-model="newName">
+	</div>
+    <div class="field">
+    	<label class="label" >Area: </label>
+    	<input type="text" placeholder="{{oldArea}}" ng-model="newArea">
+	</div>
+    <div class="field">
+    	<label class="label" >Longitude: </label>
+    	<input type="text" placeholder="{{oldLongitude}}" ng-model="newLongitude">
+	</div>
+    <div class="field">
+    	<label class="label" >Latitude: </label>
+    	<input type="text" placeholder="{{oldLatitude}}" ng-model="newLatitude">
+	</div>
+
+	<div  class="field">
+       <button ng-click="clickOnOk()" class="bouton"> <img src="./assets/ok.png" /></button>
+    </div>
+
+</section>
+
